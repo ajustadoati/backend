@@ -1,0 +1,33 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET      /books                           controllers.Application.listBooks
+POST     /books                           controllers.Application.saveBook
+GET      /ajustadoati/proveedor/:user                 controllers.Application.findProveedorByUser(user: String)
+GET      /ajustadoati/proveedor/                           controllers.Application.listProveedores
+GET      /ajustadoati/proveedor/categoria/:categoria          controllers.Application.listProveedoresByCategoria(categoria: String)
+GET      /ajustadoati/consulta/                           controllers.Application.listConsultas
+GET      /ajustadoati/consulta/:user                           controllers.Application.listConsultaByUser(user:String)
+GET      /ajustadoati/consulta/id/:id                           controllers.Application.getConsultaById(id:Long)
+POST     /ajustadoati/consulta/                           controllers.Application.saveConsulta
+GET      /ajustadoati/proveedor/categoria/:categoria      controllers.Application.listByCategoria(categoria: String)
+POST	 /ajustadoati/proveedor/                       controllers.Application.saveProveedor
+GET      /ajustadoati/categoria/                           controllers.Application.listCategorias
+POST	 /ajustadoati/categoria/                       controllers.Application.saveCategoria
+POST	 /ajustadoati/usuario/                       controllers.Application.saveUsuario
+POST	 /ajustadoati/usuario/login/                      controllers.Application.findUsuarioByUserAndPassword
+GET      /ajustadoati/usuario/                           controllers.Application.listUsuarios
+GET      /ajustadoati/usuario/:user                 controllers.Application.findUsuarioByUser(user: String)
+GET      /ajustadoati/usuario/:user/contacto/:contact    controllers.Application.addContact(contact: String, user:String)
+POST	 /ajustadoati/dispositivo/                       controllers.Application.saveDispositivoUsuario
+GET      /ajustadoati/dispositivo/usuario/:usuario                 controllers.Application.listDispositivoByUsuario(usuario: String)
+GET      /ajustadoati/dispositivo/usuarios/:usuarios          controllers.Application.listDispositivoByListUsuarios(usuarios: String)
+GET      /ajustadoati/dispositivo/:uuid                 controllers.Application.findDispositivoByUuid(uuid: String)
+
+OPTIONS        /*all                                controllers.Application.preflight(all: String)
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file)
+POST	 /ajustadoati/criptomoneda/                       controllers.Application.saveCriptomonedaUsuario
+GET      /ajustadoati/criptomoneda/usuario/:usuario                 controllers.Application.listCriptomonedaByUsuario(usuario: String)
