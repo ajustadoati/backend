@@ -99,7 +99,7 @@ trait ConsultaRepositoryComponentImpl extends ConsultaRepositoryComponent with C
             }
             Logger.info("categorias:"+categorias.toList)
     
-            val consultas = Cypher("WITH {lista} as cats Match (u:Usuario)-[rb:BUSCO]->(p:Producto)-[r:PERTENECE]->(c:Categoria) Where c.nombre in cats return u.nombre as nombre,u.user as user, u.email as email, u.telefono as telefono, u.latitud as latitud, u.longitud as longitud, id(rb) as id, p.nombre as pnombre, p.descripcion as pdescripcion, c.nombre as cnombre, c.descripcion as cdesc ORDER BY id(rb) DESC limit 2").on("lista"->categorias.toList)().map { row =>              
+            val consultas = Cypher("WITH {lista} as cats Match (u:Usuario)-[rb:BUSCO]->(p:Producto)-[r:PERTENECE]->(c:Categoria) Where c.nombre in cats return u.nombre as nombre,u.user as user, u.email as email, u.telefono as telefono, u.latitud as latitud, u.longitud as longitud, id(rb) as id, p.nombre as pnombre, p.descripcion as pdescripcion, c.nombre as cnombre, c.descripcion as cdesc ORDER BY id(rb) DESC limit 5").on("lista"->categorias.toList)().map { row =>              
                 (Consulta(Usuario(row[String]("nombre"),row[String]("email"),row[BigDecimal]("latitud"),row[BigDecimal]("longitud"),row[String]("user"),row[String]("telefono"),row[String]("telefono")),(Producto(row[Long]("id"), row[String]("pnombre"),row[String]("pdescripcion"))),Categoria(row[String]("cnombre"),row[String]("cdesc"))))
             }
             val lista=consultas.toList
