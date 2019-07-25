@@ -1,0 +1,6 @@
+
+*.class
+*.cache
+*.xml
+target/
+logs/

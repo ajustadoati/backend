@@ -29,6 +29,8 @@ trait UsuarioRepositoryComponent {
         def addContactToUser(contact:String, user:String):String
 
         def setPassword(user:String, password:String):Boolean
+
+        def tryFindByUserAndEmail(user:String, password:String):Usuario
         
     }
 }
@@ -101,6 +103,21 @@ trait UsuarioRepositoryComponentImpl extends UsuarioRepositoryComponent with Con
                     return true
                 else
                     return false
+        }
+
+        override def tryFindByUserAndEmail(user: String, email:String): Usuario = {
+            //Option(proveedores.get(id))
+            Logger.info("Buscando Usuario por user y mail")         
+            
+            val allUsuarios= Cypher("MATCH (n:Usuario) WHERE n.email={user} and n.password={email} RETURN n.nombre as nombre, n.email as email, n.latitud as latitud, n.longitud as longitud, n.user as user, n.password as password, n.telefono as telefono").on("user"->user, "email"->email)().map{     
+                case CypherRow(nombre: String, email: String, latitud:BigDecimal,longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, password, telefono)     
+            }
+
+            val lista=allUsuarios.toList
+            if(lista.size>0)
+                    return lista.iterator.next
+                else
+                    return null
         }
 
         override def addContactToUser(contact: String, user:String): String = {
