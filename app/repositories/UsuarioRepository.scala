@@ -28,7 +28,7 @@ trait UsuarioRepositoryComponent {
 
         def addContactToUser(contact:String, user:String):String
 
-        def setPassword(user:String, password:String):Boolean
+        def setPasswordByUser(user:String, password:String):Boolean
 
         def tryFindByUserAndEmail(user:String, password:String):Usuario
         
@@ -65,7 +65,7 @@ trait UsuarioRepositoryComponentImpl extends UsuarioRepositoryComponent with Con
             Logger.info("Buscando Usuario")         
             
             val allUsuarios= Cypher("MATCH (n:Usuario) WHERE n.user={user} RETURN n.nombre as nombre, n.email as email, n.latitud as latitud, n.longitud as longitud, n.user as user, n.password as password, n.telefono as telefono").on("user"->user)().map{     
-                case CypherRow(nombre: String, email: String, latitud:BigDecimal,longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, password, telefono)     
+                case CypherRow(nombre: String, email: String, latitud:BigDecimal,longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, "password", telefono)     
             }
 
             val lista=allUsuarios.toList
@@ -80,7 +80,7 @@ trait UsuarioRepositoryComponentImpl extends UsuarioRepositoryComponent with Con
             Logger.info("Buscando Usuario por user y password")         
             
             val allUsuarios= Cypher("MATCH (n:Usuario) WHERE n.user={user} and n.password={password} RETURN n.nombre as nombre, n.email as email, n.latitud as latitud, n.longitud as longitud, n.user as user, n.password as password, n.telefono as telefono").on("user"->user, "password"->password)().map{     
-                case CypherRow(nombre: String, email: String, latitud:BigDecimal,longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, password, telefono)     
+                case CypherRow(nombre: String, email: String, latitud:BigDecimal,longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, "password", telefono)     
             }
 
             val lista=allUsuarios.toList
@@ -95,7 +95,7 @@ trait UsuarioRepositoryComponentImpl extends UsuarioRepositoryComponent with Con
             Logger.info("Buscando Usuario por user y password")         
             
             val allUsuarios= Cypher("MATCH (n:Usuario) WHERE n.user={user} SET n.password={password} RETURN n.nombre as nombre, n.email as email, n.latitud as latitud, n.longitud as longitud, n.user as user, n.password as password, n.telefono as telefono").on("user"->user, "password"->password)().map{     
-                case CypherRow(nombre: String, email: String, latitud:BigDecimal,longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, password, telefono)     
+                case CypherRow(nombre: String, email: String, latitud:BigDecimal,longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, "password", telefono)     
             }
 
             val lista=allUsuarios.toList
@@ -110,7 +110,7 @@ trait UsuarioRepositoryComponentImpl extends UsuarioRepositoryComponent with Con
             Logger.info("Buscando Usuario por user y mail")         
             
             val allUsuarios= Cypher("MATCH (n:Usuario) WHERE n.email={user} and n.password={email} RETURN n.nombre as nombre, n.email as email, n.latitud as latitud, n.longitud as longitud, n.user as user, n.password as password, n.telefono as telefono").on("user"->user, "email"->email)().map{     
-                case CypherRow(nombre: String, email: String, latitud:BigDecimal,longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, password, telefono)     
+                case CypherRow(nombre: String, email: String, latitud:BigDecimal,longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, "password", telefono)     
             }
 
             val lista=allUsuarios.toList
@@ -136,7 +136,7 @@ trait UsuarioRepositoryComponentImpl extends UsuarioRepositoryComponent with Con
             Logger.info("BUscando data")
             val allUsuarios = Cypher("MATCH (n:Usuario) RETURN n.nombre as nombre, n.email as email, n.latitud as latitud, n.longitud as longitud, n.user as user, n.password as password, n.telefono as telefono")().collect{
 
-                case CypherRow(nombre: String, email: String, latitud:BigDecimal, longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, password, telefono)
+                case CypherRow(nombre: String, email: String, latitud:BigDecimal, longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, "password", telefono)
                 
             }
             val lista=allUsuarios.toList

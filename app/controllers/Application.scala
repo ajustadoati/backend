@@ -90,6 +90,35 @@ with DispositivoServiceComponentImpl with DispositivoRepositoryComponentImpl wit
        
     }
 
+    def findUsuarioByUserAndEmail(user: String, email:String) = Action {
+      Logger.info("Controller: buscando usuario"+user)
+        val usuario = usuarioService.tryFindByUserAndEmail(user,email)
+        if(usuario != null)
+            Ok(Json.toJson(usuario))
+        else
+            Ok(Json.obj("status" -> "KO"))
+       
+    }
+
+    def setPassword = Action(BodyParsers.parse.json) { request =>
+      val usuarioLogin = request.body.validate[UsuarioLogin]
+
+      usuarioLogin.fold(
+        errors => {
+          BadRequest(Json.obj("status" -> "OK", "message" -> JsError.toFlatJson(errors)))
+        },
+        usuarioLogin => {
+       
+          Logger.info("guardando usuario"+usuarioLogin)
+          val result=usuarioService.setPasswordForUser(usuarioLogin.user, usuarioLogin.password)
+          if(result)
+            Ok(Json.obj("status" -> "OK"))
+          else
+            Ok(Json.obj("status" -> "KO"))
+        }
+      )
+    }
+
 
     def findUsuarioByUserAndPassword = Action(BodyParsers.parse.json) { request =>
       val usuarioLogin = request.body.validate[UsuarioLogin]

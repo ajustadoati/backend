@@ -18,6 +18,8 @@ GET      /ajustadoati/categoria/                           controllers.Applicati
 POST	 /ajustadoati/categoria/                       controllers.Application.saveCategoria
 POST	 /ajustadoati/usuario/                       controllers.Application.saveUsuario
 POST	 /ajustadoati/usuario/login/                      controllers.Application.findUsuarioByUserAndPassword
+PUT	     /ajustadoati/usuario/password/                      controllers.Application.setPassword
+GET 	 /ajustadoati/usuario/:user/email/:email                controllers.Application.findUsuarioByUserAndEmail(user: String, email:String)
 GET      /ajustadoati/usuario/                           controllers.Application.listUsuarios
 GET      /ajustadoati/usuario/:user                 controllers.Application.findUsuarioByUser(user: String)
 GET      /ajustadoati/usuario/:user/contacto/:contact    controllers.Application.addContact(contact: String, user:String)
