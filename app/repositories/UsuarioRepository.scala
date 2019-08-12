@@ -109,7 +109,7 @@ trait UsuarioRepositoryComponentImpl extends UsuarioRepositoryComponent with Con
             //Option(proveedores.get(id))
             Logger.info("Buscando Usuario por user y mail")         
             
-            val allUsuarios= Cypher("MATCH (n:Usuario) WHERE n.email={user} and n.password={email} RETURN n.nombre as nombre, n.email as email, n.latitud as latitud, n.longitud as longitud, n.user as user, n.password as password, n.telefono as telefono").on("user"->user, "email"->email)().map{     
+            val allUsuarios= Cypher("MATCH (n:Usuario) WHERE n.email={user} and n.email={email} RETURN n.nombre as nombre, n.email as email, n.latitud as latitud, n.longitud as longitud, n.user as user, n.password as password, n.telefono as telefono").on("user"->user, "email"->email)().map{     
                 case CypherRow(nombre: String, email: String, latitud:BigDecimal,longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, "password", telefono)     
             }
 
