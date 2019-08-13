@@ -20,6 +20,7 @@ import services.dispositivo.DispositivoServiceComponent
 import services.dispositivo.DispositivoServiceComponentImpl
 import repositories.dispositivo.DispositivoRepositoryComponentImpl
 import models.usuarioLogin.UsuarioLogin
+import models.usuarioEmail.UsuarioEmail
 import services.proveedor.ProveedorServiceComponentImpl
 import repositories.proveedor.ProveedorRepositoryComponentImpl
 import services.categoria.CategoriaServiceComponentImpl
@@ -47,6 +48,8 @@ with DispositivoServiceComponentImpl with DispositivoRepositoryComponentImpl wit
   implicit val usuarioReads = Json.reads[Usuario]
   implicit val usuarioLoginWrites = Json.writes[UsuarioLogin]
   implicit val usuarioLoginReads = Json.reads[UsuarioLogin]
+  implicit val usuarioEmailWrites = Json.writes[UsuarioEmail]
+  implicit val usuarioEmailReads = Json.reads[UsuarioEmail]
   implicit val dispositivoWrites = Json.writes[Dispositivo]
   implicit val dispositivoReads = Json.reads[Dispositivo]
   implicit val dispositivoUsuarioWrites = Json.writes[DispositivoUsuario]
@@ -90,14 +93,25 @@ with DispositivoServiceComponentImpl with DispositivoRepositoryComponentImpl wit
        
     }
 
-    def findUsuarioByUserAndEmail(user: String, email:String) = Action {
-      Logger.info("Controller: buscando usuario"+user)
-        val usuario = usuarioService.tryFindByUserAndEmail(user,email)
-        if(usuario != null)
-            Ok(Json.toJson(usuario))
-        else
-            Ok(Json.obj("status" -> "KO"))
+ 
+
+    def findUsuarioByUserAndEmail = Action(BodyParsers.parse.json) { request =>
+      val usuarioEmail = request.body.validate[UsuarioEmail]
+
+      usuarioEmail.fold(
+        errors => {
+          BadRequest(Json.obj("status" -> "OK", "message" -> JsError.toFlatJson(errors)))
+        },
+        usuarioEmail => {
        
+          Logger.info("guardando usuario"+usuarioEmail)
+          val usuario = usuarioService.tryFindByUserAndEmail(usuarioEmail.user,usuarioEmail.email)
+          if(usuario != null)
+              Ok(Json.toJson(usuario))
+          else
+              Ok(Json.obj("status" -> "KO"))
+        }
+      )
     }
 
     def setPassword = Action(BodyParsers.parse.json) { request =>

@@ -62,7 +62,7 @@ trait UsuarioRepositoryComponentImpl extends UsuarioRepositoryComponent with Con
 
         override def tryFindByUser(user: String): Usuario = {
             
-            Logger.info("Buscando Usuario")         
+                  
             
             val allUsuarios= Cypher("MATCH (n:Usuario) WHERE n.user={user} RETURN n.nombre as nombre, n.email as email, n.latitud as latitud, n.longitud as longitud, n.user as user, n.password as password, n.telefono as telefono").on("user"->user)().map{     
                 case CypherRow(nombre: String, email: String, latitud:BigDecimal,longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, "password", telefono)     
@@ -77,7 +77,7 @@ trait UsuarioRepositoryComponentImpl extends UsuarioRepositoryComponent with Con
 
          override def tryFindByUserAndPassword(user: String, password:String): Usuario = {
             //Option(proveedores.get(id))
-            Logger.info("Buscando Usuario por user y password")         
+                 
             
             val allUsuarios= Cypher("MATCH (n:Usuario) WHERE n.user={user} and n.password={password} RETURN n.nombre as nombre, n.email as email, n.latitud as latitud, n.longitud as longitud, n.user as user, n.password as password, n.telefono as telefono").on("user"->user, "password"->password)().map{     
                 case CypherRow(nombre: String, email: String, latitud:BigDecimal,longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, "password", telefono)     
@@ -92,7 +92,7 @@ trait UsuarioRepositoryComponentImpl extends UsuarioRepositoryComponent with Con
 
         override def setPasswordByUser(user: String, password:String): Boolean = {
             //Option(proveedores.get(id))
-            Logger.info("Buscando Usuario por user y password")         
+                   
             
             val allUsuarios= Cypher("MATCH (n:Usuario) WHERE n.user={user} SET n.password={password} RETURN n.nombre as nombre, n.email as email, n.latitud as latitud, n.longitud as longitud, n.user as user, n.password as password, n.telefono as telefono").on("user"->user, "password"->password)().map{     
                 case CypherRow(nombre: String, email: String, latitud:BigDecimal,longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, "password", telefono)     
@@ -107,9 +107,9 @@ trait UsuarioRepositoryComponentImpl extends UsuarioRepositoryComponent with Con
 
         override def tryFindByUserAndEmail(user: String, email:String): Usuario = {
             //Option(proveedores.get(id))
-            Logger.info("Buscando Usuario por user y mail")         
+                   
             
-            val allUsuarios= Cypher("MATCH (n:Usuario) WHERE n.email={user} and n.email={email} RETURN n.nombre as nombre, n.email as email, n.latitud as latitud, n.longitud as longitud, n.user as user, n.password as password, n.telefono as telefono").on("user"->user, "email"->email)().map{     
+            val allUsuarios= Cypher("MATCH (n:Usuario) WHERE n.user={user} and n.email={email} RETURN n.nombre as nombre, n.email as email, n.latitud as latitud, n.longitud as longitud, n.user as user, n.password as password, n.telefono as telefono").on("user"->user, "email"->email)().map{     
                 case CypherRow(nombre: String, email: String, latitud:BigDecimal,longitud:BigDecimal, user:String, password:String, telefono:String)=>Usuario(nombre, email, latitud, longitud, user, "password", telefono)     
             }
 
