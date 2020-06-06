@@ -4,3 +4,4 @@
 *.xml
 target/
 logs/
+key/keystore.jks

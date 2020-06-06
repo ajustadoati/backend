@@ -47,7 +47,7 @@ trait CategoriaRepositoryComponentImpl extends CategoriaRepositoryComponent with
         
 
         override def list(): List[Categoria]={
-            Logger.info("BUscando data")
+            Logger.info("Finding categories")
             val allCategorias = Cypher("MATCH (n:Categoria) RETURN n.nombre as nombre, n.descripcion as descripcion")().collect{
 
                 case CypherRow(nombre: String, descripcion:String)=>Categoria(nombre, descripcion)

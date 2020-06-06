@@ -84,7 +84,7 @@ with DispositivoServiceComponentImpl with DispositivoRepositoryComponentImpl wit
     }
 
     def findUsuarioByUser(user: String) = Action {
-      Logger.info("Controller: buscando usuario"+user)
+      Logger.info("Controller: buscando usuario por nombre"+user)
         val usuario = usuarioService.tryFindByUser(user)
         if(usuario != null)
             Ok(Json.toJson(usuario))
@@ -181,7 +181,7 @@ with DispositivoServiceComponentImpl with DispositivoRepositoryComponentImpl wit
     
     
     def listCategorias = Action {
-
+        Logger.info("Searching categories")
         Ok(Json.toJson(categoriaService.list()))
     }
 

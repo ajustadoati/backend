@@ -1,4 +1,4 @@
-name := """simple-rest-scala"""
+name := """ajustadoati"""
 
 version := "1.0-SNAPSHOT"
 
